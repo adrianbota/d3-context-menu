@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "mkdirp dist && minify js/d3-context-menu.js > dist/d3-context-menu.min.js && minify css/d3-context-menu.css > dist/d3-context-menu.min.css"
+    "dist": "mkdirp dist && minify js/d3-context-menu.js > dist/d3-context-menu.min.js && minify css/d3-context-menu.css > dist/d3-context-menu.min.css",
+    "prepublishOnly": "npm run dist"
   },
   "repository": {
     "type": "git",
