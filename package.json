@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "minify js/d3-context-menu.js > dist/d3-context-menu.min.js && minify css/d3-context-menu.css > dist/d3-context-menu.min.css"
+    "dist": "mkdirp dist && minify js/d3-context-menu.js > dist/d3-context-menu.min.js && minify css/d3-context-menu.css > dist/d3-context-menu.min.css"
   },
+  "install": "npm run dist",
   "repository": {
     "type": "git",
     "url": "https://github.com/patorjk/d3-context-menu.git"
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/patorjk/d3-context-menu",
   "devDependencies": {
-    "minify": "^3.0.2"
+    "minify": "^3.0.2",
+    "mkdirp": "^0.5.1"
   }
 }

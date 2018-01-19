@@ -39,23 +39,22 @@
 			return function(data, index) {
 				var elm = this;
 
-				if (d3.selectAll('.d3-context-menu').size() > 0) {
-					d3.selectAll('.d3-context-menu').remove();
-					if (closeCallback) {
-						closeCallback(data, elm, index);
-					}
-				}
-
-				// close menu on click outside
-				d3.select('body').on('click.d3-context-menu', function () {
+				var closeAndCleanup = function () {
 					d3.select('body').on('click.d3-context-menu', null);
 
-					d3.selectAll('.d3-context-menu').remove();
-
-					if (closeCallback) {
-						closeCallback(data, elm, index);
+					if (d3.selectAll('.d3-context-menu').size() > 0) {
+						d3.selectAll('.d3-context-menu').remove();
+						
+						if (closeCallback) {
+							closeCallback(data, elm, index);
+						}
 					}
-				});
+				};
+
+				closeAndCleanup();
+
+				// close menu on click outside
+				d3.select('body').on('click.d3-context-menu', closeAndCleanup);
 
 				// create the div element that will hold the context menu
 				d3.selectAll('.d3-context-menu').data([1])
@@ -65,10 +64,10 @@
 				
 				var list = d3.selectAll('.d3-context-menu')
 					.on('contextmenu', function(d) {
-						d3.selectAll('.d3-context-menu').remove();
-						
 						d3.event.preventDefault();
 						d3.event.stopPropagation();
+
+						closeAndCleanup();
 					})
 					.append('ul');
 					
@@ -100,15 +99,8 @@
 						if (d.disabled) return; // do nothing if disabled
 						if (!d.action) return; // headers have no "action"
 
-						d3.select('body').on('click.d3-context-menu', null);
-
 						d.action(data, elm, index);
-						
-						d3.selectAll('.d3-context-menu').remove();
-
-						if (closeCallback) {
-							closeCallback(data, elm, index);
-						}
+						closeAndCleanup();
 					});
 
 				// the openCallback allows an action to fire before the menu is displayed
